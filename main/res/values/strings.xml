@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Mock Scoop</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+    
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Recent Scores</item>
+        <item>Toppers</item>
+        <item>Rank</item>
+    </string-array>
+
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_people</item>
+        <item>@drawable/ic_photos</item>
+    </array>
+    
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="field_button_next">Next</string>
+    <string name="title_activity_select_quiz">Mock Scoop</string>
+    <string name="title_activity_mock_scoop">Mock Scoop</string>
+
+    <string name="launch_quiz">Launch Quiz</string>
+    <string name="select_quiz">Select Quiz</string>
+    <string name="question">Question</string>
+    <string name="maximumNumberOfQuestions">No. of Questions(5-50) </string>
+    <string name="defaultNumberOfQuestions">5</string>
+    <string name="noQuestionsAvailable">No questions available.</string>
+    <string name="title_activity_show_results">ShowResults</string>
+  
+     <string name="app_id">1770352303191340</string>
+
+    <string name="endQuiz">End</string>
+    <string name="skipQuestion">Skip</string>
+    <string name="restartQuiz">Start Again</string>
+    <string name="showCorrectAnswer">Correct Ansr</string>
+    <string name="totalTime">Total time </string>
+    <string name="skipped">Skipped</string>
+
+    <string name="userid">userId</string>
+    <string name="userName">username</string>
+    <string name="userNameLabel">User Name</string>
+    <string name="category">categoryName</string>
+    <string name="category_name">category_name</string>
+    <string name="selectCategory">Select Category</string>
+    <string name="numberOfQuestions">numOfQuestions</string>
+    <string name="num_of_ques">num_of_ques</string>
+    <string name="numberOfQuestionsLabel">Questions</string>
+    <string name="scoreLabel">Score</string>
+    <string name="score">score</string>
+    <string name="avgTimePerQuestion">avgTimePerQuestion</string>
+    <string name="avgTimePerQuestionLabel">Avg Time</string>
+    <string name="time_per_ques">time_per_ques</string>
+    <string name="dateOfTestLabel">Test Date</string>
+    <string name="dateOfTest">dateOfTest</string>
+    <string name="timeOfTest">timeOFTest</string>
+    <string name="title_activity_show_user_scores">ShowUserScores</string>
+    <string name="title_activity_show_leaders_page">ShowLeadersPage</string>
+    <string name="rank">rank</string>
+    <string name="categoryRankLabel">Rank</string>
+    <string name="all">ALL</string>
+
+    <string name="title_activity_show_rank">ShowRank</string>
+<string name="no_record_found">No records found</string>
+</resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.quick.mockscoop" >
+
+    <uses-sdk android:minSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/title_activity_select_quiz"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".HomePage"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".Login"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".SelectQuiz"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".LaunchQuiz"
+            android:label="@string/title_activity_mock_scoop"
+            android:parentActivityName=".SelectQuiz" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SelectQuiz" />
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationName"
+            android:value="@string/app_name" />
+
+        <activity
+            android:name="com.quick.checkyourknowledge.ShowUserScores"
+            android:label="@string/title_activity_show_user_scores" >
+        </activity>
+        <activity
+            android:name=".ShowToppersPage"
+            android:label="@string/title_activity_show_leaders_page" >
+        </activity>
+        <activity
+            android:name="com.quick.checkyourknowledge.ShowRank"
+            android:label="@string/title_activity_show_rank" >
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="bcColor">#ff0d3200</color>
+
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:actionBarStyle">@style/BarTheme</item>
+    </style>
+
+    <style name="BarTheme" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">@color/blue</item>
+    </style>
+
+</resources>
