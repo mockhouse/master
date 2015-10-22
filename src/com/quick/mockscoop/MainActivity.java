@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -39,6 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.quick.base.MockScoopBaseActivity;
 import com.quick.checkyourknowledge.ShowRank;
 import com.quick.checkyourknowledge.ShowResults;
 import com.quick.checkyourknowledge.ShowUserScores;
@@ -112,6 +114,17 @@ public class MainActivity extends Activity {
             // on first time display view for first nav item
             displayView(0);
         }
+        else
+        {
+            Globals.imageURI = savedInstanceState.getString("Image_URI");
+            Globals.fb_id = savedInstanceState.getString("fb_id");
+            Globals.userName = savedInstanceState.getString("username");
+            Globals.realName = savedInstanceState.getString("realname");
+            Intent intent = new Intent(this, HomePage.class);
+            startActivity(intent);
+	        return;
+		          
+        }
 
         //setting image of profile pic
         ImageView imageView = (ImageView) findViewById(R.id.image_profilepic);
@@ -169,7 +182,26 @@ public class MainActivity extends Activity {
             bmImage.setImageBitmap(result);
         }
     }
-
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putString("Image_URI", Globals.imageURI);
+        savedInstanceState.putString("fb_id", Globals.fb_id);
+        savedInstanceState.putString("username", Globals.userName);
+        savedInstanceState.putString("realname", Globals.realName);
+    
+        
+        
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+       
+        // Restore state members from saved instance
+ 
+    }
     /**
      * Slide menu item click listener
      */
@@ -223,6 +255,7 @@ public class MainActivity extends Activity {
         switch (position) {
             case 0://home, go to home page
                 fragment = new SelectQuiz();
+                Log.e("aman","home");
                 break;
             case 1://go to Recent Scores page
                 fragment = new ShowUserScores();
