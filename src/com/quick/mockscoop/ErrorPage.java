@@ -20,7 +20,7 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class ErrorPage extends MockScoopBaseActivity {
-
+	final ValueAnimator animator = new ValueAnimator();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class ErrorPage extends MockScoopBaseActivity {
 
     private void enableButtonAfterPeriod(final Button button, final int duration) {
         long animationDuration = duration * 1000;
-        final ValueAnimator animator = new ValueAnimator();
+        
         animator.setObjectValues(0, duration);
         animator.setDuration(animationDuration);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -70,7 +70,18 @@ public class ErrorPage extends MockScoopBaseActivity {
             getActivity().startActivity(myIntent);
         }
     }
+    @Override
+	public void onPause(){
+        super.onPause();
+        animator.pause();
+     
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        animator.resume();
 
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
