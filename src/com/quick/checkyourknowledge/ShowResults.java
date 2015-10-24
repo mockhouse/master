@@ -140,7 +140,7 @@ public class ShowResults extends Fragment implements RequestReceiver {
         timeSummary.setPadding(0, 25, 0, 0);
         TextView score = new TextView(a);
         score.setPadding(0, 25, 0, 0);
-        score.setText("Scored " + correct + " out of " + index);
+        score.setText("Score " + correct);
         score.setTextColor(Color.GREEN);
         timeSummary.setText(getString(R.string.totalTime) + " : " + Util.timeAsString(totalQuizTime, TimeUnit.SECONDS));
         results.addView(timeSummary);
