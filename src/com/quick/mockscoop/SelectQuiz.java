@@ -23,9 +23,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 
+
 import com.quick.category.Category;
+import com.quick.global.Globals;
 import com.quick.questions.Question;
 import com.quick.util.Util;
+
 
 
 import java.io.IOException;
@@ -56,8 +59,9 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ViewGroup selectAreaButtonLayout = (ViewGroup) a.findViewById(R.id.quiz_radio_group);
-
-        List<Category> lstCategories = connector.getOrFetchCategories(null);//get value from cache, if values not found in cache, i.e server is not reachable.
+        List<Category> lstCategories=null;
+    
+        lstCategories = connector.getOrFetchCategories(null);//get value from cache, if values not found in cache, i.e server is not reachable.
 
         if(Util.isNullOrEmpty(lstCategories)) {
             //Data not found, move to the error page.
@@ -227,7 +231,15 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
         RadioButton selectedQuiz = (RadioButton) a.findViewById(selectQuizGroup.getCheckedRadioButtonId());
         String selectedCategory = selectedQuiz.getText().toString();
         List<Question> questions = connector.getOrFetchQuestions(selectedCategory, String.valueOf(response));
-
+        if(Util.isNullOrBlank((String)response) ) {
+            //Data not found, move to the error page.
+            ErrorPage errorPage = new ErrorPage();
+            android.app.FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, errorPage);
+            fragmentTransaction.commit();
+            return;
+        }
         LaunchQuiz lq = new LaunchQuiz();
         a.setTitle(R.string.launch_quiz);
         Bundle bundle = new Bundle();

@@ -16,6 +16,7 @@ import com.quick.util.Util;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -38,7 +39,7 @@ import java.util.Map;
 
 public class WebConnector implements BaseConnector {
 
-    private static final String SERVICE_URL = "http://scoopthemock.dns2dns.com/mockscoopserver/rest/person";
+    private static final String SERVICE_URL = "http://themockhouse.com/mockscoopserver/rest/person";
     static String latestResponse = null;
     private static final MockScoopCache cache = MockScoopCache.getInstance();
 
@@ -273,6 +274,7 @@ if(showDialog == true)
             String result = "";
 
             HttpResponse response = doResponse(url);
+       
             System.out.println("Aman");
             if (response == null) {
                 return result;
@@ -297,9 +299,12 @@ if(showDialog == true)
         @Override
         protected void onPostExecute(String response) {
 
-            ConnectorHolder.instance.receiveResponse(requestReceiver, response);
+         
             if(showDialog == true)
+            {
      pDlg.dismiss();
+     ConnectorHolder.instance.receiveResponse(requestReceiver, response);
+            }
 
         }
 
@@ -329,7 +334,18 @@ if(showDialog == true)
                         HttpPost httppost = new HttpPost(url);
                         // Add parameters
                         httppost.setEntity(new UrlEncodedFormEntity(params));
+                        try
+                        {
                         response = httpclient.execute(httppost);
+                        
+                       
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            return null;
+                        }
+                 
                         break;
                     case GET_TASK:
                         HttpGet httpget = new HttpGet(url);

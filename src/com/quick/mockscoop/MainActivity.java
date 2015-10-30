@@ -81,7 +81,6 @@ public class MainActivity extends Activity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5]));
         // Recycle the typed array
         navMenuIcons.recycle();
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
