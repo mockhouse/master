@@ -277,6 +277,7 @@ public class MainActivity extends Activity {
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.replace(R.id.frame_container, fragment).commit();
             // update selected item and title, then close the drawer

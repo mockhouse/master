@@ -96,9 +96,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         Globals.recordedAnswers = recordedAnswers;
         Globals.startTime = startTime;
         Globals.duration = duration;
-		new AsyncTask<Void, Void, String>() {
-			@Override
-			protected String doInBackground(Void... params) {
+
 				String msg = "";
 			      Globals.attemptedQuestions = lstQuestions;
 			        Globals.recordedAnswers = recordedAnswers;
@@ -116,7 +114,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
 
 			            //data not found or data invalid.
 			    
-			            return "done";
+			            return ;
 
 			        }
 
@@ -177,20 +175,13 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
 			                scoreDetails.put(getString(R.string.timeOfTest), Util.getOnlyTimeFromLong(startTime[0]));
 
 			                WebConnector.getInstance().saveUserScore(LaunchQuiz.this, a, scoreDetails,false);
+			           
+			
 
-			                //db.saveDataToWeb(Globals.userName, attemptedQuestions, recordedAnswers, startTime, duration);
-
-			            } catch (IOException e) {
+			            } catch (Exception e) {
 			                e.printStackTrace();
 			            }
-				return "done";
-			}
-
-			@Override
-			protected void onPostExecute(String msg) {
-				
-			}
-		}.execute(null, null, null);
+	
 	}
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -219,6 +210,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         a.setTitle(R.string.quiz_results);
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
         fragmentTransaction.replace(R.id.frame_container, sr);
         fragmentTransaction.commit();
     }
@@ -236,6 +228,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         intentional_end=true;
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
         fragmentTransaction.replace(R.id.frame_container, sr);
         fragmentTransaction.commit();
     }
@@ -256,6 +249,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
             intentional_end=true;
             android.app.FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
             fragmentTransaction.replace(R.id.frame_container, sr);
             fragmentTransaction.commit();
         }

@@ -8,8 +8,8 @@ import com.quick.connector.WebConnector;
 /**
  * Created by eropate on 8/16/2015.
  */
-public class MockScoopBaseActivity   extends Fragment {
-    protected static final MockScoopCache cache = MockScoopCache.getInstance();
+public class MockScoopBaseActivity   extends Fragment  {
+    public static final MockScoopCache cache = MockScoopCache.getInstance();
     protected WebConnector connector = WebConnector.getInstance();
     public WebConnector getConnector() {
         return connector;

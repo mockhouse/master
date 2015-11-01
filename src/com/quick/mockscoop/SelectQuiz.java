@@ -236,11 +236,14 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
             ErrorPage errorPage = new ErrorPage();
             android.app.FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+      
             fragmentTransaction.replace(R.id.frame_container, errorPage);
             fragmentTransaction.commit();
             return;
         }
         LaunchQuiz lq = new LaunchQuiz();
+       
+    
         a.setTitle(R.string.launch_quiz);
         Bundle bundle = new Bundle();
         bundle.putString(SELECTED_QUIZ, field);
@@ -248,6 +251,7 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
         lq.setArguments(bundle);
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
         fragmentTransaction.replace(R.id.frame_container, lq);
         fragmentTransaction.commit();
     }

@@ -85,8 +85,8 @@ public class ShowUserScores extends MockScoopBaseActivity implements RequestRece
         LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);
         android.widget.TableRow.LayoutParams trparams = new TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT, android.widget.TableRow.LayoutParams.WRAP_CONTENT);
-
-        for (int index = 0; index < group.length;) {
+        int index = 0;
+        for (index = 0; index < group.length;) {
 
             TextView textView = new TextView(getActivity());
             textView.setText(group[index]);
@@ -162,7 +162,19 @@ public class ShowUserScores extends MockScoopBaseActivity implements RequestRece
             viewGroup.addView(lineView);
             viewGroup.addView(layout);
         }
-
+        
+        if(index ==0 )
+        {
+        TextView textView = new TextView(getActivity());
+        textView.setText(R.string.no_result);
+        
+        textView.setTextSize(20);
+        viewGroup.addView(textView);
+        textView.setGravity(Gravity.CENTER);
+  
+        
+      
+        }
     }
 
     @Override

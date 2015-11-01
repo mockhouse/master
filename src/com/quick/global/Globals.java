@@ -17,4 +17,5 @@ public class Globals {
     public static long[] duration;
     public static String selectedCategory;
     public static String imageURI;
+    
 }

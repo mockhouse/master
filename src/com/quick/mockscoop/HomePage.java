@@ -3,6 +3,7 @@ package com.quick.mockscoop;
 import java.io.IOException;
 
 import com.quick.connector.WebConnector;
+import com.quick.global.Globals;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,7 +29,9 @@ public class HomePage extends Activity implements RequestReceiver {
 
     @Override
     public void receiveResponse(Object response) {
+   
         connector.getOrFetchCategories(String.valueOf(response));
+        
         Intent i = new Intent(this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);

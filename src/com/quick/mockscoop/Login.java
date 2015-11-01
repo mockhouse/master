@@ -120,7 +120,8 @@ int a;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		LoginButton loginButton=null;
+		final LoginButton loginButton=(LoginButton) findViewById(R.id.login_button);
+		
 		 FacebookSdk.sdkInitialize(this.getApplicationContext());
 		  //	Log.d("amanjot"," Key ="+printKeyHash(this));
 	        callbackManager = CallbackManager.Factory.create();
@@ -168,12 +169,12 @@ int a;
 
 	                    @Override
 	                    public void onCancel() {
-	                    
+	                    	LoginManager.getInstance().logOut();
 	                    }
 
 	                    @Override
 	                    public void onError(FacebookException exception) {
-	                    
+	                    	LoginManager.getInstance().logOut();
 	                    }
 
 	              
@@ -202,6 +203,7 @@ int a;
 	@Override
 	public void receiveResponse(Object response) {
 		// TODO Auto-generated method stub
+		Log.e("aman","response afte reg "+(String)response);
 		 Editor editor = sharedpreferences.edit();
          editor.putString(fb_id,(String) response);
          editor.commit();

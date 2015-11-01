@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quick.connector.WebConnector;
 import com.quick.global.Globals;
@@ -211,6 +212,10 @@ public class ShowResults extends Fragment implements RequestReceiver {
     @Override
     public void receiveResponse(Object response) {
 
+    	if(Util.isNullOrBlank((String)response))
+    		Toast.makeText(a,
+					"Network Error",
+					Toast.LENGTH_LONG).show();
         System.out.println("Saving result response : " + response);
     }
 }
