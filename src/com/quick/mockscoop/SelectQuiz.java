@@ -135,13 +135,16 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
 
         RadioButton radioButton = null;
         int index = 0;
+        String buttonText=null;
         for (String area : values) {
             radioButton = new RadioButton(a);
             radioButton.setId(++index);
             radioButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
+            buttonText=area.replace("_"," ");
+            buttonText=buttonText.replace("plus","+");
+            radioButton.setText(buttonText);
 
-            radioButton.setText(area.replace("_"," "));
             radioButton.setChecked(false);
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,6 +197,7 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
                                         RadioButton selectedQuiz = (RadioButton) a.findViewById(selectQuizGroup.getCheckedRadioButtonId());
 
                                         field = selectedQuiz.getText().toString().replace(" ","_");
+                                        field=field.replace("+","plus");
                                         try {
 
                                             Map<String, String> parameters = new HashMap<>();

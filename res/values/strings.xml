@@ -74,7 +74,8 @@
 
     <string name="title_activity_show_rank">ShowRank</string>
     <string name="no_record_found">No records found</string>
-    <string name="can_not_connect">Can not connect. Please try after some time.</string>
+    <string name="can_not_connect">Can not connect Server. Please try after some time.</string>
+        <string name="no_result">No Recent Result Found.</string>
     <string name="unexpected_error_occured">Unexpected error occured. Please try after some time.</string>
     <string name="title_activity_error_page">ErrorPage</string>
     <string name="tryagain">Check Again</string>

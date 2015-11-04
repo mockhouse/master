@@ -288,24 +288,25 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
     @Override
 	public void onResume() {
        super.onResume();
-       if(test_interuppted == true)
-       {
-    	   test_interuppted=false;
-    	   intentional_end=true;
-    	   endQuiz(null);
-       }
+    
     }
     @Override 
     public void onStop() { 
 
       super.onStop(); 
-      test_interuppted=true;
-      if(!intentional_end)
-	   endquiz();
-      else
-    	  intentional_end=false;
+      
+    
       //Code to stop quiz when any interruption comes eg home key,call,alarm
     } 
+    @Override 
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("aman", "saving scores");
+        if(!intentional_end)
+     	   endquiz();
+           else
+         	  intentional_end=false;
+    }
     private void showQuestion(Question[] questionList, ViewGroup parent, ViewGroup radioGroup, int questionIndex) {
         TextView questionText = null;
         RadioButton radioButton = null;
