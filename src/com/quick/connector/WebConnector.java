@@ -61,7 +61,10 @@ public class WebConnector implements BaseConnector {
         }
 
         if(Util.isNullOrBlank(jsonResponse) || Util.isNullString(jsonResponse))
-            return new ArrayList<>();
+        {
+        return new ArrayList<>();
+        }
+            
 
         List<Category> allCategories = new ArrayList<>();
         try {
@@ -136,13 +139,14 @@ public class WebConnector implements BaseConnector {
         wst.execute(new String[]{SERVICE_URL});
     }
 
-    public void registerUser(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
+    public WebServiceTask registerUser(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
 
         WebServiceTask wst = new WebServiceTask(receiver, WebServiceTask.POST_TASK, "Registering User", activity);
 
         wst.addNameValuePair("RequestType", "REGISTER_USER");
         wst.addNameValuePair(valuePair);
         wst.execute(new String[]{SERVICE_URL});
+        return wst;
     }
     public void getUserScore(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
 
@@ -173,12 +177,13 @@ public class WebConnector implements BaseConnector {
 
     }
 
-    public void getOrFetchCategories(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
+    public WebServiceTask getOrFetchCategories(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
 
         WebServiceTask wst = new WebServiceTask(receiver, WebServiceTask.POST_TASK, "Getting Categories", activity);
         wst.addNameValuePair("RequestType", "ALL_CATEGORIES");
         wst.addNameValuePair(valuePair);
         wst.execute(new String[]{SERVICE_URL});
+        return wst;
 
     }
 
@@ -196,7 +201,8 @@ public class WebConnector implements BaseConnector {
     }
 
     @SuppressLint("NewApi")
-    private static class WebServiceTask extends AsyncTask<String, Integer, String> {
+	public
+    static class WebServiceTask extends AsyncTask<String, Integer, String> {
 
         public static final int POST_TASK = 1;
         public static final int GET_TASK = 2;
@@ -205,10 +211,10 @@ public class WebConnector implements BaseConnector {
 
         // connection timeout, in milliseconds (waiting to connect)
         @SuppressLint("NewApi")
-        private static final int CONN_TIMEOUT = 10000;
+        private static final int CONN_TIMEOUT = 30000;
 
         // socket timeout, in milliseconds (waiting for data)
-        private static final int SOCKET_TIMEOUT = 15000;
+        private static final int SOCKET_TIMEOUT = 30000;
 
         private int taskType = GET_TASK;
         private Activity mContext = null;
@@ -216,9 +222,9 @@ public class WebConnector implements BaseConnector {
         private RequestReceiver requestReceiver;
         private ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
-        private ProgressDialog pDlg = null;
+        public ProgressDialog pDlg = null;
         private boolean showDialog=true;
-
+ 
         public WebServiceTask(RequestReceiver receiver, int taskType, String processMessage, Activity c) {
 
             this.requestReceiver = receiver;
@@ -300,11 +306,12 @@ if(showDialog == true)
         protected void onPostExecute(String response) {
 
          
-            if(showDialog == true)
+            if(showDialog == true&&pDlg!=null)
             {
      pDlg.dismiss();
-     ConnectorHolder.instance.receiveResponse(requestReceiver, response);
+  
             }
+            ConnectorHolder.instance.receiveResponse(requestReceiver, response);
 
         }
 

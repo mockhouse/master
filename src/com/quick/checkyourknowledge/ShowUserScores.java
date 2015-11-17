@@ -208,10 +208,11 @@ public class ShowUserScores extends MockScoopBaseActivity implements RequestRece
                 String timeOfTest = recentScoresList.getJSONObject(index).getString(getString(R.string.timeOfTest));
                 int score = recentScoresList.getJSONObject(index).getInt(getString(R.string.score));
                 int avgTimePerQuestion = recentScoresList.getJSONObject(index).getInt(getString(R.string.avgTimePerQuestion));//in milliseconds
-
+             	categoryName=categoryName.replace("_"," ");
+             	categoryName=categoryName.replace("plus","+");
                 displayGroups[index] = categoryName;
                 displayValues[index][0] = dateOfTest;
-                displayValues[index][1] = score + "/" + numOfQuestions;
+                displayValues[index][1] = score +"";
                 displayValues[index][2] = String.valueOf(avgTimePerQuestion);
             }
 

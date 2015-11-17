@@ -1,6 +1,7 @@
 package com.quick.mockscoop;
 
 import java.io.IOException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -13,6 +14,8 @@ import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+
 
 
 
@@ -71,6 +74,7 @@ public class Login extends Activity implements RequestReceiver {
 
 	Context context;
 	String regId;
+	WebConnector.WebServiceTask wst=null;
 	public static String fb_id;
 	public static String name;
 	public static String imageURI;
@@ -86,7 +90,7 @@ public class Login extends Activity implements RequestReceiver {
 	    	String key = null;
 	    	try {
 	    		//getting application package name, as defined in manifest
-	    		String packageName = "com.aasqr.carpool";
+	    		String packageName = "com.quick.mockscoop";
 int a;
 	    		//Retriving package info
 	    		packageInfo = context.getPackageManager().getPackageInfo(packageName,
@@ -117,30 +121,62 @@ int a;
 	    {
 	    	Log.d("aman"," Key ="+printKeyHash(this));
 	    }
+	    public void onPause() {
+	        super.onPause();  // 
+	        if( wst!=null&&wst.pDlg!=null)
+	        {
+	        	Log.e("amanjot","dismiss dialog");
+	       wst.pDlg.dismiss();
+	       wst.pDlg=null;
+	        }
+	    
+	       
+	    }
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		printKeyHash(this);
 		super.onCreate(savedInstanceState);
 		final LoginButton loginButton=(LoginButton) findViewById(R.id.login_button);
 		
 		 FacebookSdk.sdkInitialize(this.getApplicationContext());
 		  //	Log.d("amanjot"," Key ="+printKeyHash(this));
 	        callbackManager = CallbackManager.Factory.create();
-	 //       LoginManager.getInstance().logInWithReadPermissions(
-	   //     	    this,
-	     //   	    Arrays.asList("email"));
+	    LoginManager.getInstance().logInWithReadPermissions(
+	  	    this,
+	    	    Arrays.asList("email"));
 	        LoginManager.getInstance().registerCallback(callbackManager,
 	                new FacebookCallback<LoginResult>() {
+	        	
 	                    @Override
 	                    public void onSuccess(LoginResult loginResult) {
+	                    	AccessToken at=AccessToken.getCurrentAccessToken();
+	                    	GraphRequest.newMeRequest(
+	                                at,
+	                                new GraphRequest.GraphJSONObjectCallback() {
+	                                    @Override
+	                                    public void onCompleted(
+	                                            JSONObject jsonObject,
+	                                            GraphResponse response) {
 	              Log.d("aman","We are here");
 	             
-					       Profile profile = Profile.getCurrentProfile();
-					       fb_id=profile.getId();
-					       name=profile.getFirstName();
+					       
+					       try {
+							fb_id=jsonObject.getString("id");
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					       try {
+							name=jsonObject.getString("name");
+							name=name.split(" ")[0];
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					   	Log.e("arun","pic url: "+fb_id);
 	                    	AccessToken at=AccessToken.getCurrentAccessToken();
 	                    	try {
-	                    		Globals.imageURI=profile.getProfilePictureUri(100, 100).toString();
-	                    		Globals.realName=name;
+	                    		Globals.imageURI="http://graph.facebook.com/"+fb_id+"/picture?width=100&height=100";
 	                    		Globals.fb_id=fb_id;
 	                    	userDetails.put("fb_id",fb_id);
 	                    	
@@ -148,7 +184,11 @@ int a;
 	                    	sharedpreferences= getSharedPreferences("users", Context.MODE_PRIVATE);
 	                    	String  unique_name=sharedpreferences.getString(fb_id, "not found");
 	                    	if(unique_name.equals("not found"))
-								connector.registerUser(Login.this, Login.this, userDetails);
+	                    	
+								wst=connector.registerUser(Login.this, Login.this, userDetails);
+	                    
+	                    
+	                    	
 	                    	else
 	                    	{
 	                    		Globals.userName=unique_name;
@@ -163,8 +203,13 @@ int a;
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+	                    	catch(Exception e)
+	                    	{
+	                    		e.printStackTrace();
+	                    	}
+	                                    }
 	                 
-	                  
+	                                    }).executeAsync();
 	                    }
 
 	                    @Override

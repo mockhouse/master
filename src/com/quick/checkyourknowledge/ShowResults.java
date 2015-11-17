@@ -153,7 +153,7 @@ public class ShowResults extends Fragment implements RequestReceiver {
         try {
 
 
-            long avgTimePerQuestion = totalQuizTime / recordedAnswers.length;// total time in milliseconds/total number of questions attempted
+            long avgTimePerQuestion =  (totalQuizTime / recordedAnswers.length);// total time in milliseconds/total number of questions attempted
             scoreDetails.put(getString(R.string.userName), Globals.userName);
             scoreDetails.put(getString(R.string.fb_id), Globals.fb_id);
             scoreDetails.put(getString(R.string.category), Globals.selectedCategory);

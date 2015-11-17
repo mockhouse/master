@@ -5,8 +5,10 @@ import info.androidhive.slidingmenu.model.NavDrawerItem;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -130,8 +132,8 @@ public class MainActivity extends Activity {
         TextView textViewName = (TextView) findViewById(R.id.txtUserName);
         textViewName.setText(Globals.userName);
         textViewName.setTextColor(Color.WHITE);
-        new DownloadImageTask(imageView)
-                .execute(Globals.imageURI);
+     new DownloadImageTask(imageView)
+               .execute(Globals.imageURI);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -145,7 +147,12 @@ public class MainActivity extends Activity {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
+            	URL url = new URL(urldisplay);
+            	HttpURLConnection ucon = (HttpURLConnection) url.openConnection();
+            	ucon.setInstanceFollowRedirects(false);
+            	URL secondURL = new URL(ucon.getHeaderField("Location"));
+        
+                InputStream in = new java.net.URL(secondURL.toString()).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
                 mIcon11 = getRoundedCornerBitmap(mIcon11);
             } catch (Exception e) {

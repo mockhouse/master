@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,9 @@ public class ShowToppersPage extends MockScoopBaseActivity implements RequestRec
         values[0] = getString(R.string.selectCategory);
         int index = 1;
         for (Category category : lstCategories) {
-            values[index++] = category.getCategory();
+        	String category_name=category.getCategory().replace("_"," ");
+        	category_name=category_name.replace("plus","+");
+            values[index++] = category_name;
             System.out.println("Added :" + values[index - 1]);
         }
         Spinner spinnerCategoryNames = (Spinner) getActivity().findViewById(R.id.spinnerCategoryList);
@@ -61,6 +64,8 @@ public class ShowToppersPage extends MockScoopBaseActivity implements RequestRec
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             Spinner spinnerCategoryNames = (Spinner) getActivity().findViewById(R.id.spinnerCategoryList);
             String selectedItem = spinnerCategoryNames.getSelectedItem().toString();
+            selectedItem = selectedItem.replace(" ","_");
+            selectedItem=selectedItem.replace("+","plus");
             if (!getString(R.string.selectCategory).equals(selectedItem)) {
                 Map<String, String> parameters = new HashMap<>();
                 parameters.put(getString(R.string.category_name), selectedItem);
@@ -130,6 +135,8 @@ public class ShowToppersPage extends MockScoopBaseActivity implements RequestRec
         //now adding data entry
         for (int index = 0; index < topperInformation.length; index++) {
             TableRow tableRow = new TableRow(this.getActivity());
+            if(topperInformation[index][1].equals("null")||topperInformation[index][1].equals(""))
+            		continue;
             tableRow.setLayoutParams(params);
             //add date of test,score,avg time as text view here
             TextView numberOfQuestions = new TextView(this.getActivity());
@@ -182,7 +189,7 @@ public class ShowToppersPage extends MockScoopBaseActivity implements RequestRec
                 displayValues[index][0] = String.valueOf(numOfQuestions);
                 displayValues[index][1] = userName;
                 displayValues[index][2] = String.valueOf(score);
-                displayValues[index][3] = String.valueOf(avgTimePerQuestion);
+                displayValues[index][3] = String.valueOf(new DecimalFormat("#.##").format(avgTimePerQuestion/1000.0f));
             }
             displayToppers(displayValues);
         } catch (JSONException e) {
