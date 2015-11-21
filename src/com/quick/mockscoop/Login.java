@@ -224,7 +224,6 @@ int a;
 
 	              
 	                });
-	        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
 		setContentView(R.layout.activity_login);
 	}
 
