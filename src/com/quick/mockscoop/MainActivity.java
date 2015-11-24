@@ -1,17 +1,5 @@
 package com.quick.mockscoop;
 
-import info.androidhive.slidingmenu.adapter.NavDrawerListAdapter;
-import info.androidhive.slidingmenu.model.NavDrawerItem;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -42,11 +30,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.quick.base.MockScoopBaseActivity;
 import com.quick.checkyourknowledge.ShowRank;
-import com.quick.checkyourknowledge.ShowResults;
 import com.quick.checkyourknowledge.ShowUserScores;
 import com.quick.global.Globals;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
+import info.androidhive.slidingmenu.adapter.NavDrawerListAdapter;
+import info.androidhive.slidingmenu.model.NavDrawerItem;
 
 public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
@@ -260,7 +254,8 @@ public class MainActivity extends Activity {
         Fragment fragment = null;
         switch (position) {
             case 0://home, go to home page
-                fragment = new SelectQuiz();
+                //fragment = new SelectQuiz();
+                fragment = new SelectCategory();
                 Log.e("aman","home");
                 break;
             case 1://go to Recent Scores page
@@ -285,8 +280,9 @@ public class MainActivity extends Activity {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
+            fragmentTransaction.replace(R.id.frame_container, fragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.replace(R.id.frame_container, fragment).commit();
+            fragmentTransaction.commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
@@ -300,8 +296,14 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        FragmentManager fragmentManager = getFragmentManager();
         System.out.print("Back button pressed!!!");
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+//        finish();
+//        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override

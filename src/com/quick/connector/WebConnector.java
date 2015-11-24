@@ -6,17 +6,14 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.quick.base.MockScoopBaseActivity;
 import com.quick.base.MockScoopCache;
 import com.quick.category.Category;
-import com.quick.mockscoop.R;
 import com.quick.mockscoop.RequestReceiver;
 import com.quick.questions.Question;
 import com.quick.util.Util;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -62,7 +59,7 @@ public class WebConnector implements BaseConnector {
 
         if(Util.isNullOrBlank(jsonResponse) || Util.isNullString(jsonResponse))
         {
-        return new ArrayList<>();
+            return new ArrayList<>();
         }
             
 

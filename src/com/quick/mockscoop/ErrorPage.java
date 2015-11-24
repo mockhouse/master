@@ -49,7 +49,7 @@ public class ErrorPage extends MockScoopBaseActivity {
             public void onAnimationUpdate(ValueAnimator animation) {
 
                 int currentValue = duration - (int) animation.getAnimatedValue();
-                button.setText(getString(R.string.connecting_in) + String.valueOf(currentValue));
+                button.setText(getString(R.string.connecting_in) + " " + String.valueOf(currentValue));
 
                 if(currentValue == 0){
                     button.setEnabled(true);
@@ -86,7 +86,7 @@ public class ErrorPage extends MockScoopBaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as you specify currentActivity parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

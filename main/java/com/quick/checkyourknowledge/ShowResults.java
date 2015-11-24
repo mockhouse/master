@@ -1,42 +1,28 @@
 package com.quick.checkyourknowledge;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quick.connector.WebConnector;
 import com.quick.global.Globals;
-import com.quick.mockscoop.MainActivity;
 import com.quick.mockscoop.R;
 import com.quick.mockscoop.RequestReceiver;
+import com.quick.mockscoop.SelectCategory;
 import com.quick.mockscoop.SelectQuiz;
 import com.quick.questions.Question;
 import com.quick.result.ResultsDbHelper;
 import com.quick.util.Util;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ShowResults extends Fragment implements RequestReceiver {
 
-
+    public boolean alreadySaved=false;
     private ResultsDbHelper db = null;
     Activity a = null;
 
@@ -76,6 +62,7 @@ public class ShowResults extends Fragment implements RequestReceiver {
 
             //data not found or data invalid.
             SelectQuiz sq = new SelectQuiz();
+            a.setTitle(R.string.home);
             android.app.FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, sq);
@@ -98,7 +85,10 @@ public class ShowResults extends Fragment implements RequestReceiver {
 //         final Button btnShowCorrectAnswer = new Button(this);
             String answerText = question.getOptionFromIndex(recordedAnswers[index]);
             if (answerText == null || "null".equalsIgnoreCase(answerText))
+            {
                 answerText = getString(R.string.skipped);
+                		correct++;
+            }
 
             else {
                 totalQuizTime += Util.timeInSeconds(duration[index], TimeUnit.MILLISECONDS);
@@ -111,12 +101,13 @@ public class ShowResults extends Fragment implements RequestReceiver {
             if (!isCorrectAnswer) {
 
                 answer.setTextColor(Color.RED);
+                correct--;
                 //correct_answer.setText(question.getOptionFromIndex(question.getAnswer()));
                 //correct_answer.setTextColor(Color.GREEN);
 
             } else {
                 answer.setTextColor(Color.GREEN);
-                correct++;
+                correct+=4;;
             }
 
 
@@ -135,19 +126,21 @@ public class ShowResults extends Fragment implements RequestReceiver {
         timeSummary.setPadding(0, 25, 0, 0);
         TextView score = new TextView(a);
         score.setPadding(0, 25, 0, 0);
-        score.setText("Scored " + correct + " out of " + index);
+        score.setText("Score " + correct);
         score.setTextColor(Color.GREEN);
         timeSummary.setText(getString(R.string.totalTime) + " : " + Util.timeAsString(totalQuizTime, TimeUnit.SECONDS));
         results.addView(timeSummary);
         results.addView(score);
-
+        if(alreadySaved == false)
+        {
         Map<String, String> scoreDetails = new HashMap<>();
 
         try {
 
 
-            long avgTimePerQuestion = totalQuizTime / recordedAnswers.length;// total time in milliseconds/total number of questions attempted
+            long avgTimePerQuestion =  (totalQuizTime / recordedAnswers.length);// total time in milliseconds/total number of questions attempted
             scoreDetails.put(getString(R.string.userName), Globals.userName);
+            scoreDetails.put(getString(R.string.fb_id), Globals.fb_id);
             scoreDetails.put(getString(R.string.category), Globals.selectedCategory);
             scoreDetails.put(getString(R.string.numberOfQuestions), Integer.toString(recordedAnswers.length));
             scoreDetails.put(getString(R.string.score), Integer.toString(correct));
@@ -155,13 +148,16 @@ public class ShowResults extends Fragment implements RequestReceiver {
             scoreDetails.put(getString(R.string.dateOfTest), Util.getOnlyDateFromLong(startTime[0]));
             scoreDetails.put(getString(R.string.timeOfTest), Util.getOnlyTimeFromLong(startTime[0]));
 
-            WebConnector.getInstance().saveUserScore(this, getActivity(), scoreDetails);
+            WebConnector.getInstance().saveUserScore(this, getActivity(), scoreDetails,true);
 
             //db.saveDataToWeb(Globals.userName, attemptedQuestions, recordedAnswers, startTime, duration);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        }
+        else
+        	alreadySaved=false;
 
 
     }
@@ -188,10 +184,13 @@ public class ShowResults extends Fragment implements RequestReceiver {
 
         @Override
         public void onClick(View v) {
-            SelectQuiz sq = new SelectQuiz();
+            SelectCategory sq = new SelectCategory();
+            a.setTitle(R.string.selectCategory);
             android.app.FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, sq);
+            //fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             fragmentTransaction.commit();
 
         }
@@ -200,6 +199,10 @@ public class ShowResults extends Fragment implements RequestReceiver {
     @Override
     public void receiveResponse(Object response) {
 
+    	if(Util.isNullOrBlank((String)response))
+    		Toast.makeText(a,
+					"Network Error",
+					Toast.LENGTH_LONG).show();
         System.out.println("Saving result response : " + response);
     }
 }

@@ -3,31 +3,24 @@
     Copyright (c) 2014-present, AASqaure, All rights reserved.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:facebook="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:background="#FFF"
+              android:background="@drawable/image"
         >
 
         <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal"
+           android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
             />
     
       
-            <Button
-                    android:id="@+id/postPhotoButton"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Continue Without Login"
-                    android:onClick="click"
-                    />
+       
 
 
 
-</LinearLayout>
+</RelativeLayout>

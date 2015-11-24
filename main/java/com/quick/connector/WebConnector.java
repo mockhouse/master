@@ -6,10 +6,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.quick.base.MockScoopBaseActivity;
 import com.quick.base.MockScoopCache;
 import com.quick.category.Category;
-import com.quick.mockscoop.R;
 import com.quick.mockscoop.RequestReceiver;
 import com.quick.questions.Question;
 import com.quick.util.Util;
@@ -38,7 +36,7 @@ import java.util.Map;
 
 public class WebConnector implements BaseConnector {
 
-    private static final String SERVICE_URL = "http://103.253.174.51:8080/mockScoopServer/rest/person";
+    private static final String SERVICE_URL = "http://themockhouse.com/mockscoopserver/rest/person";
     static String latestResponse = null;
     private static final MockScoopCache cache = MockScoopCache.getInstance();
 
@@ -60,7 +58,10 @@ public class WebConnector implements BaseConnector {
         }
 
         if(Util.isNullOrBlank(jsonResponse) || Util.isNullString(jsonResponse))
+        {
             return new ArrayList<>();
+        }
+            
 
         List<Category> allCategories = new ArrayList<>();
         try {
@@ -91,9 +92,9 @@ public class WebConnector implements BaseConnector {
             return new ArrayList<>();
 
         //validate cache entry exists
-        if (cache.containsKey(categoryName)) {
-            return new ArrayList<>((List<Question>) cache.get(categoryName));
-        }
+      //  if (cache.containsKey(categoryName)) {
+        //    return new ArrayList<>((List<Question>) cache.get(categoryName));
+        //}
 
         if(Util.isNullOrBlank(jsonResponse) || Util.isNullString(jsonResponse))
             return new ArrayList<>();
@@ -126,16 +127,24 @@ public class WebConnector implements BaseConnector {
         return allQuestions;
     }
 
-    public void saveUserScore(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
+    public void saveUserScore(RequestReceiver receiver, Activity activity, Map<String, String> valuePair,Boolean showDialog) throws IOException {
 
-        WebServiceTask wst = new WebServiceTask(receiver, WebServiceTask.POST_TASK, "Saving Scores", activity);
+        WebServiceTask wst = new WebServiceTask(receiver, WebServiceTask.POST_TASK, "Saving Scores", activity,showDialog);
 
         wst.addNameValuePair("RequestType", "SAVE_SCORES");
         wst.addNameValuePair(valuePair);
         wst.execute(new String[]{SERVICE_URL});
     }
 
+    public WebServiceTask registerUser(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
 
+        WebServiceTask wst = new WebServiceTask(receiver, WebServiceTask.POST_TASK, "Registering User", activity);
+
+        wst.addNameValuePair("RequestType", "REGISTER_USER");
+        wst.addNameValuePair(valuePair);
+        wst.execute(new String[]{SERVICE_URL});
+        return wst;
+    }
     public void getUserScore(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
 
         WebServiceTask wst = new WebServiceTask(receiver, WebServiceTask.POST_TASK, "Getting Scores", activity);
@@ -165,12 +174,13 @@ public class WebConnector implements BaseConnector {
 
     }
 
-    public void getOrFetchCategories(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
+    public WebServiceTask getOrFetchCategories(RequestReceiver receiver, Activity activity, Map<String, String> valuePair) throws IOException {
 
         WebServiceTask wst = new WebServiceTask(receiver, WebServiceTask.POST_TASK, "Getting Categories", activity);
         wst.addNameValuePair("RequestType", "ALL_CATEGORIES");
         wst.addNameValuePair(valuePair);
         wst.execute(new String[]{SERVICE_URL});
+        return wst;
 
     }
 
@@ -188,7 +198,8 @@ public class WebConnector implements BaseConnector {
     }
 
     @SuppressLint("NewApi")
-    private static class WebServiceTask extends AsyncTask<String, Integer, String> {
+	public
+    static class WebServiceTask extends AsyncTask<String, Integer, String> {
 
         public static final int POST_TASK = 1;
         public static final int GET_TASK = 2;
@@ -197,10 +208,10 @@ public class WebConnector implements BaseConnector {
 
         // connection timeout, in milliseconds (waiting to connect)
         @SuppressLint("NewApi")
-        private static final int CONN_TIMEOUT = 3000;
+        private static final int CONN_TIMEOUT = 30000;
 
         // socket timeout, in milliseconds (waiting for data)
-        private static final int SOCKET_TIMEOUT = 5000;
+        private static final int SOCKET_TIMEOUT = 30000;
 
         private int taskType = GET_TASK;
         private Activity mContext = null;
@@ -208,14 +219,23 @@ public class WebConnector implements BaseConnector {
         private RequestReceiver requestReceiver;
         private ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 
-        private ProgressDialog pDlg = null;
-
+        public ProgressDialog pDlg = null;
+        private boolean showDialog=true;
+ 
         public WebServiceTask(RequestReceiver receiver, int taskType, String processMessage, Activity c) {
 
             this.requestReceiver = receiver;
             this.taskType = taskType;
             mContext = c;
             this.processMessage = processMessage;
+        }
+        public WebServiceTask(RequestReceiver receiver, int taskType, String processMessage, Activity c,Boolean show) {
+
+            this.requestReceiver = receiver;
+            this.taskType = taskType;
+            mContext = c;
+            this.processMessage = processMessage;
+            showDialog=show;
         }
 
         public void addNameValuePair(String name, String value) {
@@ -235,7 +255,6 @@ public class WebConnector implements BaseConnector {
         }
 
         private void showProgressDialog() {
-
             pDlg = new ProgressDialog(mContext);
             pDlg.setMessage(processMessage);
             pDlg.setProgressDrawable(mContext.getWallpaper());
@@ -247,8 +266,8 @@ public class WebConnector implements BaseConnector {
 
         @Override
         protected void onPreExecute() {
-
-            showProgressDialog();
+if(showDialog == true)
+    showProgressDialog();
 
         }
 
@@ -258,6 +277,7 @@ public class WebConnector implements BaseConnector {
             String result = "";
 
             HttpResponse response = doResponse(url);
+       
             System.out.println("Aman");
             if (response == null) {
                 return result;
@@ -282,8 +302,13 @@ public class WebConnector implements BaseConnector {
         @Override
         protected void onPostExecute(String response) {
 
+         
+            if(showDialog == true&&pDlg!=null)
+            {
+     pDlg.dismiss();
+  
+            }
             ConnectorHolder.instance.receiveResponse(requestReceiver, response);
-            pDlg.dismiss();
 
         }
 
@@ -313,7 +338,18 @@ public class WebConnector implements BaseConnector {
                         HttpPost httppost = new HttpPost(url);
                         // Add parameters
                         httppost.setEntity(new UrlEncodedFormEntity(params));
+                        try
+                        {
                         response = httpclient.execute(httppost);
+                        
+                       
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            return null;
+                        }
+                 
                         break;
                     case GET_TASK:
                         HttpGet httpget = new HttpGet(url);

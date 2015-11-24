@@ -56,7 +56,7 @@ public class MockScoopDbHelper extends SQLiteOpenHelper {
     private static final String POST_DATA_URL = "";
     private static final String SERVICE_URL = "http://103.253.175.78:8080/RestWebServiceDemo/rest/person";
     @SuppressLint("NewApi")
-
+int a;
     private static final String TAG = "AndroidRESTClientActivity";
     private static final String SQL_CREATE_CATEGORY_TABLE =
             "CREATE TABLE " + CategoryContract.ContractEntry.TABLE_NAME + " (" +

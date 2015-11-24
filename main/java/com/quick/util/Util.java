@@ -52,4 +52,11 @@ public abstract class Util {
         DateFormat formatter = new SimpleDateFormat("HH:mm:ss:SSS");
         return formatter.format(date);
     }
+
+    public static String decorateDisplayText(String inputText) {
+        return inputText.replace("_"," ").replace("plus", "+");
+    }
+    public static String unDecorateDisplayText(String inputText) {
+        return inputText.replace(" ","_").replace("+","plus");
+    }
 }

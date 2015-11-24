@@ -54,7 +54,7 @@ public class ShowUserScores extends MockScoopBaseActivity implements RequestRece
         super.onActivityCreated(savedInstanceState);
         //get the data of user scores from the web
         Map<String, String> parameters = new HashMap<>();
-        parameters.put(getString(R.string.userName), Globals.userName);
+        parameters.put(getString(R.string.fb_id), Globals.fb_id);
 
         try {
             WebConnector.getInstance().getUserScore(this, getActivity(), parameters);
@@ -85,8 +85,8 @@ public class ShowUserScores extends MockScoopBaseActivity implements RequestRece
         LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);
         android.widget.TableRow.LayoutParams trparams = new TableRow.LayoutParams(android.widget.TableRow.LayoutParams.WRAP_CONTENT, android.widget.TableRow.LayoutParams.WRAP_CONTENT);
-
-        for (int index = 0; index < group.length;) {
+        int index = 0;
+        for (index = 0; index < group.length;) {
 
             TextView textView = new TextView(getActivity());
             textView.setText(group[index]);
@@ -162,7 +162,19 @@ public class ShowUserScores extends MockScoopBaseActivity implements RequestRece
             viewGroup.addView(lineView);
             viewGroup.addView(layout);
         }
-
+        
+        if(index ==0 )
+        {
+        TextView textView = new TextView(getActivity());
+        textView.setText(R.string.no_result);
+        
+        textView.setTextSize(20);
+        viewGroup.addView(textView);
+        textView.setGravity(Gravity.CENTER);
+  
+        
+      
+        }
     }
 
     @Override
@@ -196,10 +208,11 @@ public class ShowUserScores extends MockScoopBaseActivity implements RequestRece
                 String timeOfTest = recentScoresList.getJSONObject(index).getString(getString(R.string.timeOfTest));
                 int score = recentScoresList.getJSONObject(index).getInt(getString(R.string.score));
                 int avgTimePerQuestion = recentScoresList.getJSONObject(index).getInt(getString(R.string.avgTimePerQuestion));//in milliseconds
-
+             	categoryName=categoryName.replace("_"," ");
+             	categoryName=categoryName.replace("plus","+");
                 displayGroups[index] = categoryName;
                 displayValues[index][0] = dateOfTest;
-                displayValues[index][1] = score + "/" + numOfQuestions;
+                displayValues[index][1] = score +"";
                 displayValues[index][2] = String.valueOf(avgTimePerQuestion);
             }
 

@@ -1,43 +1,28 @@
 package com.quick.checkyourknowledge;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quick.connector.WebConnector;
 import com.quick.global.Globals;
-import com.quick.mockscoop.MainActivity;
 import com.quick.mockscoop.R;
 import com.quick.mockscoop.RequestReceiver;
+import com.quick.mockscoop.SelectCategory;
 import com.quick.mockscoop.SelectQuiz;
 import com.quick.questions.Question;
 import com.quick.result.ResultsDbHelper;
 import com.quick.util.Util;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -199,11 +184,13 @@ public class ShowResults extends Fragment implements RequestReceiver {
 
         @Override
         public void onClick(View v) {
-            SelectQuiz sq = new SelectQuiz();
-            a.setTitle(R.string.home);
+            SelectCategory sq = new SelectCategory();
+            a.setTitle(R.string.selectCategory);
             android.app.FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frame_container, sq);
+            //fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             fragmentTransaction.commit();
 
         }

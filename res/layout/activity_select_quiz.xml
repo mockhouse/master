@@ -23,7 +23,7 @@
             android:textSize="32sp" />
     </TableRow>
 
-    <TableRow
+    <!--<TableRow
         android:layout_width="fill_parent"
         android:layout_height="match_parent">
 
@@ -36,20 +36,23 @@
             android:layout_weight="10"
             android:text="@string/field_button_next" />
 
-    </TableRow>
+    </TableRow>-->
 
-    <TableRow
+   <!-- <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
 
         <Spinner
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerCategoryGroup"
-            android:layout_weight="10"/>
+            android:layout_weight="10"
+            android:spinnerMode="dialog"
+            />
 
-    </TableRow>
+    </TableRow>-->
 
     <TableRow
         android:layout_width="fill_parent"
@@ -63,18 +66,14 @@
             android:scrollbars="vertical">
 
             <LinearLayout
+                android:id="@+id/quiz_button_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RadioGroup
-                    android:id="@+id/quiz_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                </RadioGroup>
             </LinearLayout>
         </ScrollView>
 
     </TableRow>
+
 </TableLayout>

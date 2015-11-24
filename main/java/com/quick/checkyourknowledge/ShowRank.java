@@ -49,7 +49,9 @@ public class ShowRank extends MockScoopBaseActivity implements RequestReceiver {
         values[0] = getString(R.string.selectCategory);
         int index = 1;
         for (Category category : lstCategories) {
-            values[index++] = category.getCategory();
+         	String category_name=category.getCategory().replace("_"," ");
+        	category_name=category_name.replace("plus","+");
+            values[index++] = category_name;
             System.out.println("Added :" + values[index - 1]);
         }
         Spinner spinnerCategoryNames = (Spinner) getActivity().findViewById(R.id.spinnerCategoryList);
@@ -66,6 +68,8 @@ public class ShowRank extends MockScoopBaseActivity implements RequestReceiver {
 
             Spinner spinnerCategoryNames = (Spinner) getActivity().findViewById(R.id.spinnerCategoryList);
             String selectedItem = spinnerCategoryNames.getSelectedItem().toString();
+            selectedItem = selectedItem.replace(" ","_");
+            selectedItem=selectedItem.replace("+","plus");
             if (!getString(R.string.selectCategory).equals(selectedItem)) {
                 Map<String, String> parameters = new HashMap<>();
                 parameters.put(getString(R.string.category_name), selectedItem);
