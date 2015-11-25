@@ -337,7 +337,9 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
         lq.setArguments(bundle);
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
+        
+        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
+
         fragmentTransaction.replace(R.id.frame_container, lq);
         fragmentTransaction.commit();
     }

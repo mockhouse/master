@@ -210,7 +210,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         a.setTitle(R.string.quiz_results);
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
+        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
         fragmentTransaction.replace(R.id.frame_container, sr);
         fragmentTransaction.commit();
     }
@@ -228,7 +228,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         intentional_end=true;
         android.app.FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
+        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
         fragmentTransaction.replace(R.id.frame_container, sr);
         fragmentTransaction.commit();
     }
@@ -249,7 +249,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
             intentional_end=true;
             android.app.FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out);
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
             fragmentTransaction.replace(R.id.frame_container, sr);
             fragmentTransaction.commit();
         }
