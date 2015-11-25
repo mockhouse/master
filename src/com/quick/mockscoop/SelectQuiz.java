@@ -16,10 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.ToggleButton;
 
 import com.quick.base.MockScoopBaseActivity;
@@ -29,6 +27,8 @@ import com.quick.util.Util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -78,50 +78,6 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
         showCategories(lstCategories, selectAreaButtonLayout);
     }
 
-    /*private void showCategoryGroups(List<Category> categories) {
-
-        Spinner spinnerCategoryGroups = (Spinner) getActivity().findViewById(R.id.spinnerCategoryGroup);
-        List<String> groups = new ArrayList<>();
-        groups.add(getString(R.string.all));
-        for (Category category : categories) {
-            if (!groups.contains(category.getType())) {
-                groups.add(category.getType());
-            }
-        }
-        ArrayAdapter adapter = new ArrayAdapter(this.getActivity(), R.layout.spinner_category_names, groups.toArray());
-        spinnerCategoryGroups.setAdapter(adapter);
-        spinnerCategoryGroups.setOnItemSelectedListener(new FilterCategories());
-    }*/
-
-    /*private class FilterCategories implements AdapterView.OnItemSelectedListener {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            Spinner spinnerCategoryNames = (Spinner) getActivity().findViewById(R.id.spinnerCategoryGroup);
-            String selectedItem = spinnerCategoryNames.getSelectedItem().toString();
-            //ViewGroup selectAreaButtonLayout = (ViewGroup) currentActivity.findViewById(R.id.quiz_radio_group);
-            ViewGroup selectAreaButtonLayout = (ViewGroup) currentActivity.findViewById(R.id.quiz_button_group);
-            selectAreaButtonLayout.removeAllViews();
-            List<Category> lstAreas = connector.getOrFetchCategories(null);//get values from cache
-            if (!getString(R.string.all).equals(selectedItem)) {
-                //filter the list to have only those categories which are for selected category group
-                Iterator<Category> iterator = lstAreas.iterator();
-                while (iterator.hasNext()) {
-                    if (!iterator.next().getType().equals(selectedItem)) {
-                        iterator.remove();
-                    }
-                }
-            }
-            showCategories(lstAreas, selectAreaButtonLayout);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parentView) {
-            // your code here
-        }
-    }*/
-
     private List<Category> filterCategories(List<Category> categories,String selectedCategory)  {
 
         if(Util.isNullOrBlank(selectedCategory)){
@@ -145,7 +101,14 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
         for (Category categoryData : categories) {
             categoryInfo.add(categoryData.getStringDescription());
         }
-        //generateRadioButtons(categoryInfo, parent);
+        Collections.sort(categoryInfo, new Comparator<String>() {
+            @Override
+            public int compare(String lhs, String rhs) {
+
+                return (lhs.length() - rhs.length());
+            }
+        });
+
         generateButtons(categoryInfo, parent);
     }
 
@@ -168,17 +131,10 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
             mBtn.setChecked(false);
             mBtn.setId(++index);
             mBtn.setPadding(10, 10, 10, 10);
-            //mBtn.setBackgroundResource(R.drawable.toggle_button_background);
             mBtn.setBackgroundResource(R.drawable.button_transperant);
             allButtons.add(mBtn);
             mBtn.setOnClickListener(ocl);
-           /* mBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    selectToggleButton(mBtn);
-                }
-            });*/
             Display display = getActivity().getWindowManager().getDefaultDisplay();
             Point mScreenSize = new Point();
             display.getSize(mScreenSize);
@@ -206,48 +162,15 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
             for (ToggleButton btn : allButtons) {
                 btn.setChecked(Boolean.FALSE);
                 btn.setBackgroundResource(R.drawable.button_transperant);
-                btn.setTextColor(getResources().getColor(R.color.blue));
+                btn.setTextColor(getResources().getColor(R.color.appThemeColor));
             }
         }
         selectedButton.setChecked(Boolean.TRUE);
         selectedButton.setTextColor(Color.WHITE);
-        selectedButton.setBackgroundColor(getResources().getColor(R.color.blue));
+        selectedButton.setBackgroundColor(getResources().getColor(R.color.appThemeColor));
         selectQuizGroupText = selectedButton.getText().toString();
-//        enableAndSetActionForNextButton();
     }
 
-   /* private void enableAndSetActionForNextButton() {
-
-        Button button = (Button) currentActivity.findViewById(R.id.select_quiz_button);
-        button.setOnClickListener(ocl);
-        if (!Util.isNull(button)) {
-            button.setEnabled(true);
-        }
-    }*/
-
-    private void generateRadioButtons(List<String> values, ViewGroup parent) {
-
-        RadioButton radioButton = null;
-        int index = 0;
-        String buttonText = null;
-        for (String area : values) {
-            radioButton = new RadioButton(currentActivity);
-            radioButton.setId(++index);
-            radioButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            buttonText = area.replace("_", " ");
-            buttonText = buttonText.replace("plus", "+");
-            radioButton.setText(buttonText);
-            radioButton.setChecked(false);
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-//                    enableAndSetActionForNextButton();
-                }
-            });
-            parent.addView(radioButton);
-        }
-    }
 
     String field = null;
     OnClickListener ocl = new OnClickListener() {
@@ -299,7 +222,7 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
                                     public void onClick(DialogInterface dialog, int id) {
                                         clickedButton.setChecked(Boolean.FALSE);
                                         clickedButton.setBackgroundResource(R.drawable.button_transperant);
-                                        clickedButton.setTextColor(getResources().getColor(R.color.blue));
+                                        clickedButton.setTextColor(getResources().getColor(R.color.appThemeColor));
                                         dialog.cancel();
 
                                     }

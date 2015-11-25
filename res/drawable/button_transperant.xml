@@ -5,5 +5,5 @@
               android:endColor="@color/toggleButtonNormal"
               android:angle="270" />
     <corners android:radius="5dp" />
-    <stroke android:width="5px" android:color="@color/blue" />
+    <stroke android:width="5px" android:color="@color/appThemeColor" />
 </shape>

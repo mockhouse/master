@@ -13,26 +13,26 @@
     </style>
 
     <style name="BarTheme" parent="android:Widget.Holo.ActionBar">
-        <item name="android:background">@color/blue</item>
+        <item name="android:background">@color/appThemeColor</item>
     </style>
     <style name="DefaultToggleButtonTheme" parent="DefaultButtonTheme">
     </style>
     <style name="DefaultButtonTheme" parent="@android:style/Widget.Button">
-        <item name="android:textSize">25dp</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/appThemeColor</item>
         <item name="android:padding">10dp</item>
     </style>
     <style name="QuizSelectionButton" parent="DefaultButtonTheme">
         <item name="android:background">@drawable/button_transperant</item>
     </style>
     <style name="DefaultRadioButtonTheme" parent="@android:style/Widget.CompoundButton.RadioButton">
-        <item name="android:textSize">25dp</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/appThemeColor</item>
         <item name="android:padding">10dp</item>
     </style>
     <style name="DefaultTextViewTheme" parent="@android:style/Widget.TextView">
-        <item name="android:textSize">25dp</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/appThemeColor</item>
         <item name="android:padding">10dp</item>
     </style>
 

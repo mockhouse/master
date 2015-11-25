@@ -159,12 +159,12 @@ public class SelectCategory extends MockScoopBaseActivity implements RequestRece
             for (ToggleButton btn : allButtons) {
                 btn.setChecked(Boolean.FALSE);
                 btn.setBackgroundResource(R.drawable.button_transperant);
-                btn.setTextColor(getResources().getColor(R.color.blue));
+                btn.setTextColor(getResources().getColor(R.color.appThemeColor));
             }
         }
         selectedButton.setChecked(Boolean.TRUE);
         selectedButton.setTextColor(Color.WHITE);
-        selectedButton.setBackgroundColor(getResources().getColor(R.color.blue));
+        selectedButton.setBackgroundColor(getResources().getColor(R.color.appThemeColor));
 
         SelectQuiz selectQuiz = new SelectQuiz();
         currentActivity.setTitle(R.string.select_quiz);

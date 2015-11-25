@@ -279,7 +279,7 @@ public class MainActivity extends Activity {
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.left_in, R.anim.right_out);
             fragmentTransaction.replace(R.id.frame_container, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
@@ -296,14 +296,11 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        System.out.print("Back button pressed!!!");
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
-//        finish();
-//        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override
