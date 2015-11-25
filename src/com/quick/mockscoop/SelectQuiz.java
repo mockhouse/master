@@ -263,7 +263,7 @@ public class SelectQuiz extends MockScoopBaseActivity implements RequestReceiver
         
         fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
 
-        fragmentTransaction.replace(R.id.frame_container, lq);
+        fragmentTransaction.replace(R.id.frame_container, lq,"LaunchQuiz");
         fragmentTransaction.commit();
     }
 

@@ -276,11 +276,15 @@ public class MainActivity extends Activity {
             default:
                 break;
         }
+        String tag="LaunchQuiz";
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.left_in, R.anim.right_out);
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
             fragmentTransaction.replace(R.id.frame_container, fragment);
+            LaunchQuiz lq=(LaunchQuiz)(fragmentManager.findFragmentByTag(tag));
+            
+            if(!(lq!=null&&lq.isVisible()))
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
             // update selected item and title, then close the drawer
@@ -296,13 +300,30 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
+        System.out.print("Back button pressed!!!");
+        
+        String tag="LaunchQuiz";
+        FragmentManager fragmentManager = getFragmentManager();
+     LaunchQuiz lq=(LaunchQuiz)(fragmentManager.findFragmentByTag(tag));
+       Fragment frg=fragmentManager.findFragmentById(R.id.frame_container);
+        if(lq!=null&&lq.isVisible())
+        {
+        	
         }
-    }
+        else if (fragmentManager.getBackStackEntryCount() > 1) {
+        	   FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        	   fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
+        	   fragmentTransaction.remove(frg);
+               fragmentTransaction.commit();
+        	   
+        	fragmentManager.popBackStack();
 
+        }
+        
+        else
+        finish();
+//        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+    }
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
