@@ -43,6 +43,7 @@ import info.androidhive.slidingmenu.adapter.NavDrawerListAdapter;
 import info.androidhive.slidingmenu.model.NavDrawerItem;
 
 public class MainActivity extends Activity {
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -55,8 +56,8 @@ public class MainActivity extends Activity {
     private TypedArray navMenuIcons;
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
-
     private LinearLayout drawerll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -81,7 +82,6 @@ public class MainActivity extends Activity {
         navMenuIcons.recycle();
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
         drawerll = (LinearLayout) findViewById(R.id.drawerll);
-
         adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
         mDrawerList.setAdapter(adapter);
         // enabling action bar app icon and behaving it as toggle button
@@ -93,12 +93,14 @@ public class MainActivity extends Activity {
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
             public void onDrawerClosed(View view) {
+
                 getActionBar().setTitle(mTitle);
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
+
                 getActionBar().setTitle(mDrawerTitle);
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 invalidateOptionsMenu();
@@ -108,44 +110,42 @@ public class MainActivity extends Activity {
         if (savedInstanceState == null) {
             // on first time display view for first nav item
             displayView(0);
-        }
-        else
-        {
+        } else {
             Globals.imageURI = savedInstanceState.getString("Image_URI");
             Globals.fb_id = savedInstanceState.getString("fb_id");
             Globals.userName = savedInstanceState.getString("username");
             Globals.realName = savedInstanceState.getString("realname");
             Intent intent = new Intent(this, HomePage.class);
             startActivity(intent);
-	        return;
-		          
+            return;
         }
-
         //setting image of profile pic
         ImageView imageView = (ImageView) findViewById(R.id.image_profilepic);
         TextView textViewName = (TextView) findViewById(R.id.txtUserName);
         textViewName.setText(Globals.userName);
         textViewName.setTextColor(Color.WHITE);
-     new DownloadImageTask(imageView)
-               .execute(Globals.imageURI);
+        new DownloadImageTask(imageView)
+                .execute(Globals.imageURI);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+
         ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
+
             this.bmImage = bmImage;
         }
 
         protected Bitmap doInBackground(String... urls) {
+
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
-            	URL url = new URL(urldisplay);
-            	HttpURLConnection ucon = (HttpURLConnection) url.openConnection();
-            	ucon.setInstanceFollowRedirects(false);
-            	URL secondURL = new URL(ucon.getHeaderField("Location"));
-        
+                URL url = new URL(urldisplay);
+                HttpURLConnection ucon = (HttpURLConnection) url.openConnection();
+                ucon.setInstanceFollowRedirects(false);
+                URL secondURL = new URL(ucon.getHeaderField("Location"));
                 InputStream in = new java.net.URL(secondURL.toString()).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
                 mIcon11 = getRoundedCornerBitmap(mIcon11);
@@ -157,31 +157,30 @@ public class MainActivity extends Activity {
         }
 
         public Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+
             Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
                     .getHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(output);
-
             final int color = 0xff424242;
             final Paint paint = new Paint();
             final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
             final RectF rectF = new RectF(rect);
             final float roundPx = 128;
-
             paint.setAntiAlias(true);
             canvas.drawARGB(0, 0, 0, 0);
             paint.setColor(color);
             canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
             canvas.drawBitmap(bitmap, rect, rect, paint);
-
             return output;
         }
 
         protected void onPostExecute(Bitmap result) {
+
             bmImage.setImageBitmap(result);
         }
     }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current game state
@@ -189,24 +188,22 @@ public class MainActivity extends Activity {
         savedInstanceState.putString("fb_id", Globals.fb_id);
         savedInstanceState.putString("username", Globals.userName);
         savedInstanceState.putString("realname", Globals.realName);
-    
-        
-        
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
+
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
-       
         // Restore state members from saved instance
- 
     }
+
     /**
      * Slide menu item click listener
      */
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // display view for selected nav drawer item
@@ -216,6 +213,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -256,7 +254,7 @@ public class MainActivity extends Activity {
             case 0://home, go to home page
                 //fragment = new SelectQuiz();
                 fragment = new SelectCategory();
-                Log.e("aman","home");
+                Log.e("aman", "home");
                 break;
             case 1://go to Recent Scores page
                 fragment = new ShowUserScores();
@@ -271,21 +269,20 @@ public class MainActivity extends Activity {
                 fragment = new Help();
                 break;
             case 5:
-            	finish();
-            	return;
+                finish();
+                return;
             default:
                 break;
         }
-        String tag="LaunchQuiz";
+        String tag = "LaunchQuiz";
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.left_in, R.anim.right_out);
             fragmentTransaction.replace(R.id.frame_container, fragment);
-            LaunchQuiz lq=(LaunchQuiz)(fragmentManager.findFragmentByTag(tag));
-            
-            if(!(lq!=null&&lq.isVisible()))
-            fragmentTransaction.addToBackStack(null);
+            LaunchQuiz lq = (LaunchQuiz) (fragmentManager.findFragmentByTag(tag));
+            if (!(lq != null && lq.isVisible()))
+                fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
@@ -300,32 +297,27 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        System.out.print("Back button pressed!!!");
-        
-        String tag="LaunchQuiz";
-        FragmentManager fragmentManager = getFragmentManager();
-     LaunchQuiz lq=(LaunchQuiz)(fragmentManager.findFragmentByTag(tag));
-       Fragment frg=fragmentManager.findFragmentById(R.id.frame_container);
-        if(lq!=null&&lq.isVisible())
-        {
-        	
-        }
-        else if (fragmentManager.getBackStackEntryCount() > 1) {
-        	   FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        	   fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
-        	   fragmentTransaction.remove(frg);
-               fragmentTransaction.commit();
-        	   
-        	fragmentManager.popBackStack();
 
-        }
-        
-        else
-        finish();
+        System.out.print("Back button pressed!!!");
+        String tag = "LaunchQuiz";
+        FragmentManager fragmentManager = getFragmentManager();
+        LaunchQuiz lq = (LaunchQuiz) (fragmentManager.findFragmentByTag(tag));
+        Fragment frg = fragmentManager.findFragmentById(R.id.frame_container);
+        if (lq != null && lq.isVisible()) {
+        } else if (fragmentManager.getBackStackEntryCount() > 1) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
+            fragmentTransaction.remove(frg);
+            fragmentTransaction.commit();
+            fragmentManager.popBackStack();
+        } else
+            finish();
 //        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
+
     @Override
     public void setTitle(CharSequence title) {
+
         mTitle = title;
         getActionBar().setTitle(mTitle);
     }
@@ -336,6 +328,7 @@ public class MainActivity extends Activity {
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
+
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
@@ -343,6 +336,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);

@@ -16,7 +16,8 @@
         android:text="@string/selectCategory"
         android:id="@+id/textViewSelectCategory"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:textStyle="bold"/>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
