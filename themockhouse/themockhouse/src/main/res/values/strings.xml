@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">The Mock House</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Recent Scores</item>
+        <item>Toppers</item>
+        <item>Rank</item>
+        <item>Help</item>
+        <item>Exit</item>
+    </string-array>
+
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="field_button_next">Next</string>
+    <string name="title_activity_select_quiz">Select Quiz</string>
+    <string name="title_activity_mock_scoop">The Mock House</string>
+    <string name="help_text">Rules\n\n1.For every correct answer, 4 points will be given\n\n2.Every wrong answer will lead to deduction of 1 point\n\n3.Your Rank in a catgeory will be dependent on your score\n\n4.In case of tie, the user with less number of questions and average time will be awarded higher rank </string>
+
+    <string name="launch_quiz">Quiz Time</string>
+    <string name="select_quiz">Select Quiz</string>
+    <string name="quiz_results">Results</string>
+    <string name="home">Home</string>
+    <string name="question">Question</string>
+    <string name="maximumNumberOfQuestions">No. of Questions(5-50) </string>
+    <string name="defaultNumberOfQuestions">5</string>
+    <string name="noQuestionsAvailable">No questions available.</string>
+    <string name="title_activity_show_results">ShowResults</string>
+
+    <string name="app_id">1770352303191340</string>
+
+    <string name="endQuiz">End</string>
+    <string name="skipQuestion">Skip</string>
+    <string name="restartQuiz">Start Again</string>
+    <string name="showCorrectAnswer">Correct Ansr</string>
+    <string name="totalTime">Total time </string>
+    <string name="skipped">Skipped</string>
+    <string name="fb_id">fb_id</string>
+    <string name="userid">userId</string>
+    <string name="userName">username</string>
+    <string name="userNameLabel">User Name</string>
+    <string name="category">categoryName</string>
+    <string name="category_name">category_name</string>
+    <string name="selectCategory">Select Category</string>
+    <string name="numberOfQuestions">numOfQuestions</string>
+    <string name="num_of_ques">num_of_ques</string>
+    <string name="numberOfQuestionsLabel">Questions</string>
+    <string name="scoreLabel">Score</string>
+    <string name="score">score</string>
+    <string name="avgTimePerQuestion">avgTimePerQuestion</string>
+    <string name="avgTimePerQuestionLabel">Avg Time</string>
+    <string name="time_per_ques">time_per_ques</string>
+    <string name="dateOfTestLabel">Test Date</string>
+    <string name="dateOfTest">dateOfTest</string>
+    <string name="timeOfTest">timeOFTest</string>
+    <string name="title_activity_show_user_scores">ShowUserScores</string>
+    <string name="title_activity_show_leaders_page">ShowLeadersPage</string>
+    <string name="rank">rank</string>
+    <string name="categoryRankLabel">Rank</string>
+    <string name="all">ALL</string>
+
+    <string name="title_activity_show_rank">ShowRank</string>
+    <string name="no_record_found">No records found</string>
+    <string name="can_not_connect">Can not connect Server. Please try after some time.</string>
+    <string name="no_result">No Recent Result Found.</string>
+    <string name="unexpected_error_occured">Unexpected error occured. Please try after some time.</string>
+    <string name="title_activity_error_page">ErrorPage</string>
+    <string name="tryagain">Check Again</string>
+    <string name="connecting_in">Connecting in </string>
+    <integer name="connection_cooloff_period">30</integer>
+    <string name="profilepic">Profile Picture</string>
+    <string name="title_activity_select_category">SelectCategory</string>
+</resources>
