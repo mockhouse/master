@@ -3,7 +3,6 @@ package com.aasquare.mockhouse.checkyourknowledge;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,12 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aasquare.mockhouse.connector.WebConnector;
-import com.aasquare.mockhouse.global.Globals;
 import com.aasquare.mockhouse.activity.R;
 import com.aasquare.mockhouse.activity.RequestReceiver;
 import com.aasquare.mockhouse.activity.SelectCategory;
 import com.aasquare.mockhouse.activity.SelectQuiz;
+import com.aasquare.mockhouse.connector.WebConnector;
+import com.aasquare.mockhouse.global.Globals;
 import com.aasquare.mockhouse.questions.Question;
 import com.aasquare.mockhouse.result.ResultsDbHelper;
 import com.aasquare.mockhouse.util.Util;
@@ -34,9 +33,6 @@ public class ShowResults extends Fragment implements RequestReceiver {
     public boolean alreadySaved=false;
     private ResultsDbHelper db = null;
     Activity a = null;
-
-
-    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +51,6 @@ public class ShowResults extends Fragment implements RequestReceiver {
         long[] startTime = Globals.startTime;
         long[] duration = Globals.duration;
 
-        //  db.insertResult(Globals.userName, attemptedQuestions, recordedAnswers, startTime, duration);
         a.findViewById(R.id.btnRestartQuiz).setOnClickListener(restartQuiz);
         if (attemptedQuestions == null || attemptedQuestions.length <= 0 || recordedAnswers == null ||
                 recordedAnswers.length <= 0 || attemptedQuestions.length != recordedAnswers.length) {
@@ -80,40 +75,39 @@ public class ShowResults extends Fragment implements RequestReceiver {
 
             TextView questionText = new TextView(a);
             questionText.setText((index + 1) + ". " + question.getQuestion());
-            TextView answer = new TextView(a);
+            //TextView answer = new TextView(a);
             TextView correct_answer = new TextView(a);
-//         final Button btnShowCorrectAnswer = new Button(this);
             String answerText = question.getOptionFromIndex(recordedAnswers[index]);
+            //String answerText = "";
             if (answerText == null || "null".equalsIgnoreCase(answerText))
             {
-                answerText = getString(R.string.skipped);
-                		correct++;
+                answerText = Util.OPEN_BRACKET + getString(R.string.skipped) + Util.CLOSE_BRACKET;
+                correct++;
             }
-
             else {
                 totalQuizTime += Util.timeInSeconds(duration[index], TimeUnit.MILLISECONDS);
-                answerText += Util.OPEN_BRACKET + Util.timeInSecondsAsString(duration[index], TimeUnit.MILLISECONDS) + Util.CLOSE_BRACKET;
+                answerText = Util.OPEN_BRACKET + Util.timeInSecondsAsString(duration[index], TimeUnit.MILLISECONDS) + Util.CLOSE_BRACKET;
             }
-            answer.setText(answerText);
+            questionText.setText(questionText.getText() + " " + answerText);
+            //answer.setText(answerText);
 
             //mark answer in green if correct , else red
             Boolean isCorrectAnswer = question.getAnswer() == recordedAnswers[index];
             if (!isCorrectAnswer) {
-
-                answer.setTextColor(Color.RED);
+                //answer.setTextColor(getResources().getColor(R.color.red));
+                questionText.setTextColor(getResources().getColor(R.color.red));
                 correct--;
                 //correct_answer.setText(question.getOptionFromIndex(question.getAnswer()));
                 //correct_answer.setTextColor(Color.GREEN);
 
             } else {
-                answer.setTextColor(Color.GREEN);
+                //answer.setTextColor(getResources().getColor(R.color.green));
+                questionText.setTextColor(getResources().getColor(R.color.green));
                 correct+=4;;
             }
-
-
-            answer.setPadding(10, 0, 0, 10);
+            //answer.setPadding(10, 0, 0, 10);
             results.addView(questionText);
-            results.addView(answer);
+            //results.addView(answer);
             if (!isCorrectAnswer) {
                 correct_answer.setPadding(10, 0, 0, 10);
                 results.addView(correct_answer);
@@ -126,8 +120,8 @@ public class ShowResults extends Fragment implements RequestReceiver {
         timeSummary.setPadding(0, 25, 0, 0);
         TextView score = new TextView(a);
         score.setPadding(0, 25, 0, 0);
-        score.setText("Score " + correct);
-        score.setTextColor(Color.GREEN);
+        score.setText("Score : " + correct);
+        score.setTextColor(getResources().getColor(R.color.green));
         timeSummary.setText(getString(R.string.totalTime) + " : " + Util.timeAsString(totalQuizTime, TimeUnit.SECONDS));
         results.addView(timeSummary);
         results.addView(score);

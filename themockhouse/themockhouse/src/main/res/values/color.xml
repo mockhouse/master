@@ -10,5 +10,7 @@
     <color name="counter_text_color">#c5c4c4</color>
     <color name="toggleButtonSelected">#992416</color>
     <color name="toggleButtonNormal">#FFFFFF</color>
-
+    <color name="green">#008000</color>
+    <color name="black">#000000</color>
+    <color name="red">#CD5C5C</color>
 </resources>

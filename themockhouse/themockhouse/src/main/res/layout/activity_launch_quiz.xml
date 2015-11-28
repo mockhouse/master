@@ -27,15 +27,7 @@
                 android:textStyle="bold"
                 android:layout_column="0"
                 />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/endQuiz"
-                android:id="@+id/btnEndQuiz"
-                android:textSize="12sp"
-                android:background="@drawable/button_transperant"
-                android:layout_column="3"
-                />
+
 
             <Button
                 android:layout_width="wrap_content"
@@ -47,7 +39,15 @@
                 android:layout_column="2"
                 android:layout_marginRight="25dp"
                 />
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/endQuiz"
+                android:id="@+id/btnEndQuiz"
+                android:textSize="12sp"
+                android:background="@drawable/button_transperant"
+                android:layout_column="3"
+                />
         </TableRow>
     </TableLayout>
 

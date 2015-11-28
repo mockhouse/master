@@ -2,8 +2,8 @@ package com.aasquare.mockhouse.activity;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -89,7 +89,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         showQuestion(lstQuestions, questionListLayout, optionListLayout, nextQuestionIndex++);
     }
 
-    public void endquiz() {
+    public void endQuiz() {
 
         Globals.attemptedQuestions = lstQuestions;
         Globals.recordedAnswers = recordedAnswers;
@@ -196,8 +196,6 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         Globals.attemptedQuestions = lstQuestions;
         Globals.recordedAnswers = recordedAnswers;
         Globals.selectedCategory = selectedCategory;
-        Globals.attemptedQuestions = lstQuestions;
-        Globals.recordedAnswers = recordedAnswers;
         Globals.startTime = startTime;
         Globals.duration = duration;
         intentional_end = true;
@@ -218,8 +216,6 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
             Globals.attemptedQuestions = lstQuestions;
             Globals.recordedAnswers = recordedAnswers;
             Globals.selectedCategory = selectedCategory;
-            Globals.attemptedQuestions = lstQuestions;
-            Globals.recordedAnswers = recordedAnswers;
             Globals.startTime = startTime;
             Globals.duration = duration;
             intentional_end = true;
@@ -281,7 +277,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         super.onDestroy();
         Log.e("aman", "saving scores");
         if (!intentional_end)
-            endquiz();
+            endQuiz();
         else
             intentional_end = false;
     }
@@ -331,15 +327,36 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
 
             Button clickedButton = (Button) activity.findViewById(v.getId());
             if (!Util.isNull(clickedButton)) {
-                clickedButton.setTextColor(Color.WHITE);
-                clickedButton.setBackgroundColor(getResources().getColor(R.color.appThemeColor));
-                showNextQuestion(v, clickedButton.getId(), false, optionListLayout);
+                int selectedAnswer = clickedButton.getId();
+                clickedButton.setTextColor(getResources().getColor(R.color.black));
+                //clickedButton.setTextColor(Color.WHITE);
+                //if correct answer, show the green ,else red
+                if(lstQuestions[nextQuestionIndex - 2].getAnswer() == selectedAnswer) {
+                    clickedButton.setBackgroundColor(getResources().getColor(R.color.green));
+                } else {
+                    clickedButton.setBackgroundColor(getResources().getColor(R.color.red));
+                }
+                //showNextQuestion(v, clickedButton.getId(), false, optionListLayout);
+                showNextQuestionWithDelay(v, selectedAnswer, false, optionListLayout);
             }
         }
     }
 
+
+    public void showNextQuestionWithDelay(final View view, final int selectedAnswer, boolean skipCurrentQuestion, ViewGroup optionList) {
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                showNextQuestion(view, selectedAnswer, false, optionListLayout);
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, Integer.valueOf(getString(R.string.fixed_delay_1000))); // <-- the "1000" is the delay time in milliseconds.
+    }
+
     @Override
     public void receiveResponse(Object response) {
-        // TODO Auto-generated method stub
     }
 }

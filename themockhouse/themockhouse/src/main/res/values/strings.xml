@@ -83,4 +83,5 @@
     <integer name="connection_cooloff_period">30</integer>
     <string name="profilepic">Profile Picture</string>
     <string name="title_activity_select_category">SelectCategory</string>
+    <string name="fixed_delay_1000">1000</string>
 </resources>
