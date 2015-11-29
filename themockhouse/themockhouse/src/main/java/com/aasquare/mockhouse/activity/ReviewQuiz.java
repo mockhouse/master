@@ -90,10 +90,7 @@ public class ReviewQuiz extends MockScoopBaseActivity {
         Question question = questionList[questionIndex - 1];
         System.out.println("Current Questions : " + question);
         ((TextView) currentActivity.findViewById(R.id.questionText)).setText(question.getQuestion());
-        reviewOptionListLayout.addView(GuiUtil.createOptionButton(++index, question.getOption1(), R.drawable.button_transperant, null, currentActivity));
-        reviewOptionListLayout.addView(GuiUtil.createOptionButton(++index, question.getOption2(), R.drawable.button_transperant, null, currentActivity));
-        reviewOptionListLayout.addView(GuiUtil.createOptionButton(++index, question.getOption3(), R.drawable.button_transperant, null, currentActivity));
-        reviewOptionListLayout.addView(GuiUtil.createOptionButton(++index, question.getOption4(), R.drawable.button_transperant, null, currentActivity));
+        GuiUtil.createAnswerOptionButtons(question, R.drawable.button_transperant, null, currentActivity, reviewOptionListLayout, getString(R.string.invalid_options));
         //set the formatting of the selected option
         int checkIndex = nextQuestionIndex -1;
         Button selectedButton = (Button) currentActivity.findViewById(recordedAnswers[checkIndex]);

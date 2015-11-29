@@ -59,4 +59,16 @@ public abstract class Util {
     public static String unDecorateDisplayText(String inputText) {
         return inputText.replace(" ","_").replace("+","plus");
     }
+
+    public static Boolean isValidOption(String optionText,String invalidOptionsText) {
+
+        String[] strInvalidOptions = invalidOptionsText.split(",");
+        for(String token : strInvalidOptions) {
+            if(token.equals(optionText)) {
+                return Boolean.FALSE;//text is found in invalid options, hence not valid option
+            }
+        }
+        return Boolean.TRUE;
+
+    }
 }

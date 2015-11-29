@@ -289,16 +289,11 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
 
         TextView questionText = null;
         Button optionButton = null;
-        int index = 0;
         EnableNextButton enableButton = new EnableNextButton(a);
         Question question = questionList[questionIndex - 1];
         System.out.println("Current Questions : " + question);
         ((TextView) a.findViewById(R.id.questionText)).setText(question.getQuestion());
-
-        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption1(), R.drawable.button_transperant, enableButton,a));
-        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption2(), R.drawable.button_transperant, enableButton,a));
-        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption3(), R.drawable.button_transperant, enableButton,a));
-        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption4(), R.drawable.button_transperant, enableButton,a));
+        GuiUtil.createAnswerOptionButtons(question, R.drawable.button_transperant, enableButton, a, optionList, getString(R.string.invalid_options));
         //start the timers
         startTime[questionIndex - 1] = System.currentTimeMillis();
     }
