@@ -109,7 +109,6 @@ public class ShowResults extends Fragment implements RequestReceiver {
                 //answer.setTextColor(getResources().getColor(R.color.green));
                 questionText.setTextColor(getResources().getColor(R.color.green));
                 correct += 4;
-                ;
             }
             //answer.setPadding(10, 0, 0, 10);
             results.addView(questionText);
