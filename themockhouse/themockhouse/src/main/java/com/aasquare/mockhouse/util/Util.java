@@ -26,10 +26,10 @@ public abstract class Util {
     }
 
     public static String timeInSecondsAsString(long time,TimeUnit source) {
-        return TimeUnit.SECONDS.convert(time,source) + " s";
+        return TimeUnit.SECONDS.convert(time,source) + " sec";
     }
     public static String timeInMinutesAsString(long time,TimeUnit source) {
-        return TimeUnit.MINUTES.convert(time,source) + " m";
+        return TimeUnit.MINUTES.convert(time,source) + " min";
     }
 
     public static String timeAsString(long time,TimeUnit source) {
@@ -38,7 +38,7 @@ public abstract class Util {
             return timeInSecondsAsString(time,source);
         if(secs < 3600)
             return timeInMinutesAsString(time,source);
-        return TimeUnit.HOURS.convert(time,source) + " h";
+        return TimeUnit.HOURS.convert(time,source) + " Hr";
     }
 
     public static String getOnlyDateFromLong(long time) {

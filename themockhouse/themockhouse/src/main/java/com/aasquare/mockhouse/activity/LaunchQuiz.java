@@ -20,6 +20,7 @@ import com.aasquare.mockhouse.connector.WebConnector;
 import com.aasquare.mockhouse.global.Globals;
 import com.aasquare.mockhouse.questions.Question;
 import com.aasquare.mockhouse.questions.QuestionDbHelper;
+import com.aasquare.mockhouse.util.GuiUtil;
 import com.aasquare.mockhouse.util.Util;
 
 import java.util.HashMap;
@@ -282,19 +283,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
             intentional_end = false;
     }
 
-    private Button createOptionButton(int id, String text, int backgroundResource, OnClickListener listener) {
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(5, 5, 10, 20);
-        Button optionButton = new Button(a);
-        optionButton.setId(id);
-        optionButton.setText(text);
-        optionButton.setBackgroundResource(backgroundResource);
-        optionButton.setOnClickListener(listener);
-        optionButton.setLayoutParams(params);
-        optionButton.setMinWidth(250);
-        return optionButton;
-    }
 
     private void showQuestion(Question[] questionList, ViewGroup questionListLayout, ViewGroup optionList, int questionIndex) {
 
@@ -306,10 +295,10 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         System.out.println("Current Questions : " + question);
         ((TextView) a.findViewById(R.id.questionText)).setText(question.getQuestion());
 
-        optionList.addView(createOptionButton(++index, question.getOption1(), R.drawable.button_transperant, enableButton));
-        optionList.addView(createOptionButton(++index, question.getOption2(),R.drawable.button_transperant,enableButton));
-        optionList.addView(createOptionButton(++index, question.getOption3(),R.drawable.button_transperant,enableButton));
-        optionList.addView(createOptionButton(++index, question.getOption4(),R.drawable.button_transperant,enableButton));
+        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption1(), R.drawable.button_transperant, enableButton,a));
+        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption2(), R.drawable.button_transperant, enableButton,a));
+        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption3(), R.drawable.button_transperant, enableButton,a));
+        optionList.addView(GuiUtil.createOptionButton(++index, question.getOption4(), R.drawable.button_transperant, enableButton,a));
         //start the timers
         startTime[questionIndex - 1] = System.currentTimeMillis();
     }
@@ -328,7 +317,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
             Button clickedButton = (Button) activity.findViewById(v.getId());
             if (!Util.isNull(clickedButton)) {
                 int selectedAnswer = clickedButton.getId();
-                clickedButton.setTextColor(getResources().getColor(R.color.black));
+                clickedButton.setTextColor(getResources().getColor(R.color.white));
                 //clickedButton.setTextColor(Color.WHITE);
                 //if correct answer, show the green ,else red
                 if(lstQuestions[nextQuestionIndex - 2].getAnswer() == selectedAnswer) {

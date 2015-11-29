@@ -31,6 +31,7 @@
     <string name="help_text">Rules\n\n1.For every correct answer, 4 points will be given\n\n2.Every wrong answer will lead to deduction of 1 point\n\n3.Your Rank in a catgeory will be dependent on your score\n\n4.In case of tie, the user with less number of questions and average time will be awarded higher rank </string>
 
     <string name="launch_quiz">Quiz Time</string>
+    <string name="review_quiz">Review Quiz</string>
     <string name="select_quiz">Select Quiz</string>
     <string name="quiz_results">Results</string>
     <string name="home">Home</string>
@@ -45,6 +46,7 @@
     <string name="endQuiz">End</string>
     <string name="skipQuestion">Skip</string>
     <string name="restartQuiz">Start Again</string>
+    <string name="reviewQuiz">Review Answers</string>
     <string name="showCorrectAnswer">Correct Ansr</string>
     <string name="totalTime">Total time </string>
     <string name="skipped">Skipped</string>
@@ -84,4 +86,5 @@
     <string name="profilepic">Profile Picture</string>
     <string name="title_activity_select_category">SelectCategory</string>
     <string name="fixed_delay_1000">1000</string>
+    <string name="title_activity_review_quiz">ReviewQuiz</string>
 </resources>

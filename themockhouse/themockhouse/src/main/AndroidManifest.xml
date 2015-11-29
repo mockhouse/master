@@ -2,39 +2,35 @@
 <manifest package="com.aasquare.mockhouse.activity"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-sdk android:minSdkVersion="14"/>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <uses-sdk android:minSdkVersion="14"/>
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/title_activity_select_quiz"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.aasquare.mockhouse.activity.HomePage"
+            android:name=".HomePage"
             android:label="@string/app_name">
-
-
         </activity>
         <activity
-            android:name="com.aasquare.mockhouse.activity.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-
         </activity>
-
-
         <activity
-            android:name="com.aasquare.mockhouse.activity.Login"
-            android:label="@string/app_name"
-            >
+            android:name=".Login"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -51,7 +47,10 @@
             android:name="com.facebook.sdk.ApplicationName"
             android:value="Car Pool"/>
 
-
+        <activity
+            android:name=".ReviewQuiz"
+            android:label="@string/title_activity_review_quiz">
+        </activity>
     </application>
 
 </manifest>
