@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +41,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
     ViewGroup optionListLayout;
     int nextQuestionIndex = 1;
     TextView header;
-    Activity a = null;
+    private Activity currentActivity = null;
     String selectedCategory;
     List<Question> allQuestions;
 
@@ -50,7 +49,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        a = getActivity();
+        currentActivity = getActivity();
         View rootView = inflater.inflate(R.layout.activity_launch_quiz, container, false);
         return rootView;
     }
@@ -65,21 +64,21 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
 
         super.onActivityCreated(savedInstanceState);
         selectedCategory = getArguments().getString(SelectQuiz.SELECTED_QUIZ);
-        questionListLayout = (ViewGroup) a.findViewById(R.id.questionList);
-        // questionAnswerRadioGroup = (RadioGroup) a.findViewById(R.id.questionAnswerOptions);
-        optionListLayout = (LinearLayout) a.findViewById(R.id.optionList);
-        header = (TextView) a.findViewById(R.id.textViewHeader);
-        questionDbHelper = QuestionDbHelper.getDBHelper(a);
+        questionListLayout = (ViewGroup) currentActivity.findViewById(R.id.questionList);
+        // questionAnswerRadioGroup = (RadioGroup) currentActivity.findViewById(R.id.questionAnswerOptions);
+        optionListLayout = (LinearLayout) currentActivity.findViewById(R.id.optionList);
+        header = (TextView) currentActivity.findViewById(R.id.textViewHeader);
+        questionDbHelper = QuestionDbHelper.getDBHelper(currentActivity);
         //List<Question> allQuestions = connector.getOrFetchQuestions(selectedCategory, null);//get questions for the category from the cache
-        a.findViewById(R.id.btnSkipQuestions).setOnClickListener(skipQuestion);
-        //a.findViewById(R.id.btnNextQuestion).setOnClickListener(nextQuestion);
-        a.findViewById(R.id.btnEndQuiz).setOnClickListener(endQuiz);
+        currentActivity.findViewById(R.id.btnSkipQuestions).setOnClickListener(skipQuestion);
+        //currentActivity.findViewById(R.id.btnNextQuestion).setOnClickListener(nextQuestion);
+        currentActivity.findViewById(R.id.btnEndQuiz).setOnClickListener(endQuiz);
         if (allQuestions == null || allQuestions.isEmpty()) {
             header.setText(R.string.noQuestionsAvailable);
-            //a.findViewById(R.id.btnNextQuestion).setOnClickListener(nextQuestion);
-            a.findViewById(R.id.btnEndQuiz).setOnClickListener(endQuiz);
-            a.findViewById(R.id.btnSkipQuestions).setVisibility(View.INVISIBLE);
-            a.findViewById(R.id.btnSkipQuestions).setOnClickListener(skipQuestion);
+            //currentActivity.findViewById(R.id.btnNextQuestion).setOnClickListener(nextQuestion);
+            currentActivity.findViewById(R.id.btnEndQuiz).setOnClickListener(endQuiz);
+            currentActivity.findViewById(R.id.btnSkipQuestions).setVisibility(View.INVISIBLE);
+            currentActivity.findViewById(R.id.btnSkipQuestions).setOnClickListener(skipQuestion);
             return;
         }
         lstQuestions = allQuestions.toArray(new Question[allQuestions.size()]);
@@ -151,7 +150,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
             scoreDetails.put(getString(R.string.avgTimePerQuestion), Long.toString(avgTimePerQuestion));//in milliseconds
             scoreDetails.put(getString(R.string.dateOfTest), Util.getOnlyDateFromLong(startTime[0]));
             scoreDetails.put(getString(R.string.timeOfTest), Util.getOnlyTimeFromLong(startTime[0]));
-            WebConnector.getInstance().saveUserScore(LaunchQuiz.this, a, scoreDetails, false);
+            WebConnector.getInstance().saveUserScore(LaunchQuiz.this, currentActivity, scoreDetails, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -178,22 +177,12 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         }
     };
 
-    /*public void endQuiz(View view) {
 
-        ShowResults sr = new ShowResults(false);
- 
-        a.setTitle(R.string.quiz_results);
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.right_in, R.anim.left_out);
-        fragmentTransaction.replace(R.id.frame_container, sr,"ShowResults");
-        fragmentTransaction.commit();
-    }*/
 
     public void quizFinished(View view) {
 
         ShowResults sr = new ShowResults(true);
-        a.setTitle(R.string.quiz_results);
+        currentActivity.setTitle(R.string.quiz_results);
         Globals.attemptedQuestions = lstQuestions;
         Globals.recordedAnswers = recordedAnswers;
         Globals.selectedCategory = selectedCategory;
@@ -213,7 +202,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
             // TODO Auto-generated method stub
             //ending the quiz in between as opted by the user
             ShowResults sr = new ShowResults(true);
-            a.setTitle(R.string.quiz_results);
+            currentActivity.setTitle(R.string.quiz_results);
             Globals.attemptedQuestions = lstQuestions;
             Globals.recordedAnswers = recordedAnswers;
             Globals.selectedCategory = selectedCategory;
@@ -255,7 +244,7 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
         }
         header.setText("Questions " + nextQuestionIndex + "/" + lstQuestions.length);
         showQuestion(lstQuestions, questionListLayout, optionList, nextQuestionIndex++);
-        // Button nextQuestions = (Button) a.findViewById(R.id.btnNextQuestion);
+        // Button nextQuestions = (Button) currentActivity.findViewById(R.id.btnNextQuestion);
         //nextQuestions.setEnabled(false);
     }
 
@@ -276,7 +265,6 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
     public void onDestroy() {
 
         super.onDestroy();
-        Log.e("aman", "saving scores");
         if (!intentional_end)
             endQuiz();
         else
@@ -289,11 +277,11 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
 
         TextView questionText = null;
         Button optionButton = null;
-        EnableNextButton enableButton = new EnableNextButton(a);
+        EnableNextButton enableButton = new EnableNextButton(currentActivity);
         Question question = questionList[questionIndex - 1];
         System.out.println("Current Questions : " + question);
-        ((TextView) a.findViewById(R.id.questionText)).setText(question.getQuestion());
-        GuiUtil.createAnswerOptionButtons(question, R.drawable.button_transperant, enableButton, a, optionList, getString(R.string.invalid_options));
+        ((TextView) currentActivity.findViewById(R.id.questionText)).setText(question.getQuestion());
+        GuiUtil.createAnswerOptionButtons(question, R.drawable.button_transperant, enableButton, currentActivity, optionList, getString(R.string.invalid_options));
         //start the timers
         startTime[questionIndex - 1] = System.currentTimeMillis();
     }
@@ -311,6 +299,10 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
 
             Button clickedButton = (Button) activity.findViewById(v.getId());
             if (!Util.isNull(clickedButton)) {
+
+                ViewGroup optionList = (ViewGroup) clickedButton.getParent();
+                disbaleAllOptionButtons(optionList);
+
                 int selectedAnswer = clickedButton.getId();
                 clickedButton.setTextColor(getResources().getColor(R.color.white));
                 //clickedButton.setTextColor(Color.WHITE);
@@ -321,8 +313,17 @@ public class LaunchQuiz extends MockScoopBaseActivity implements RequestReceiver
                     clickedButton.setBackgroundColor(getResources().getColor(R.color.red));
                 }
                 //showNextQuestion(v, clickedButton.getId(), false, optionListLayout);
+
                 showNextQuestionWithDelay(v, selectedAnswer, false, optionListLayout);
             }
+        }
+    }
+
+    private void disbaleAllOptionButtons(ViewGroup optionList) {
+
+        for (int i = 0; i < optionList.getChildCount(); i++) {
+            View child = optionList.getChildAt(i);
+            child.setEnabled(false);
         }
     }
 
